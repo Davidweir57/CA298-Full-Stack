@@ -16,3 +16,19 @@ class Product(models.Model):
     category = models.ForeignKey(Category, default=1, on_delete=models.CASCADE)
 
 
+class Order(models.Model):
+    id = models.AutoField(primary_key=True)
+    shipping_address = models.CharField(max_length=200)
+    order_date = models.CharField(max_length=20)
+    email = models.CharField(max_length=50)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField()
+
+
+
+
+
