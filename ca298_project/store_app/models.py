@@ -1,11 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-
-
-class Category(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200)
 
 
 class Product(models.Model):
@@ -13,7 +9,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.ForeignKey(Category, default=1, on_delete=models.CASCADE)
+    picture = models.FileField(upload_to='product_img/', blank=True)
 
 
 class Order(models.Model):
@@ -29,6 +25,6 @@ class OrderItem(models.Model):
     quantity = models.IntegerField()
 
 
-
-
+class CaUser(AbstractUser):
+    is_admin = models.BooleanField(default=False)
 

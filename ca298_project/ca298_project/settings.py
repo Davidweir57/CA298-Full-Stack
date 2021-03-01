@@ -120,4 +120,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = "store_app.CaUser"
+
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
