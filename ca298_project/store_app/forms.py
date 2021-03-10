@@ -48,3 +48,9 @@ class UserLoginForm(AuthenticationForm):
 
     username = forms.TextInput()
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['shipping_addr', 'card_num']

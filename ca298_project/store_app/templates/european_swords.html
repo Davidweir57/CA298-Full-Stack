@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    European Swords
+{% endblock %}
+
+
+{% block content %}
+<br>
+    {% for product in products  %}
+        <div class="album py-5 bg-light">
+            <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+          <div class="card shadow-sm">
+              <img src="{{ product.picture.url }}" class="card-img" alt="" height = 250px>
+            <div class="card-body">
+                <h5>{{ product.name }}</h5>
+              <p class="card-text">{{ product.description }}</p>
+                <p class="card-text">Price: {{ product.price }}</p>
+                <form action="product/{{ product.id }}">
+                    <input type="submit" value="More information" />
+                </form>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+            </div>
+            </div>
+
+
+</div>
+
+    {% endfor %}
+
+{% endblock %}
