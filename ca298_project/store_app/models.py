@@ -18,6 +18,12 @@ class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 
 
+class ProductStock(models.Model):
+    id = models.AutoField(primary_key=True)
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    stock = models.IntegerField()
+
+
 class CaUser(AbstractUser):
     is_admin = models.BooleanField(default=False)
 

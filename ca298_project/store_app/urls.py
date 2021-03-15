@@ -3,7 +3,6 @@ from . import views, forms
 
 urlpatterns = [
 	path('', views.index, name="index"),
-	path('registration/', views.register, name="register"),
 	path('allproducts/', views.all_products, name='all_products'),
 	path('product/<int:prodid>', views.singleproduct, name='single_product'),
 	path('myform', views.myform),
@@ -16,6 +15,6 @@ urlpatterns = [
 	path('european', views.european_sword, name="european swords"),
 	path('oriental', views.oriental_sword, name="oriental swords"),
 	path('checkout', views.checkout, name="checkout"),
-
+	#path('stock', views.Stockform)
 
 ]

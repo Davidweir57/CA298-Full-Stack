@@ -5,9 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <form action="." method="POST">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <form class ="form-signin" action="." method="POST">
         {% csrf_token %}
         {{ form.as_table }}
-        <button type="submit">Submit</button>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 {% endblock %}

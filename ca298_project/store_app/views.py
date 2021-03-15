@@ -54,10 +54,6 @@ def index(request):
 	return render(request, 'index.html')
 
 
-def register(request):
-	return HttpResponse("Hello from registration page.")
-
-
 def all_products(request):
 	all_p = Product.objects.all()
 	return render(request, 'all_products.html', {'products' : all_p})
@@ -81,14 +77,38 @@ def myform(request):
 		return render(request, 'form.html', {'form': form})
 
 
+
+#todo - fix this view
+#@login_required()
+#@admin_required()
+#def Stockform(request):
+#	if request.method == 'POST':
+#		form = ProductStockForm(request.POST)
+#		data = request.POST.dict()
+#		if form.is_valid():
+#			obj = ProductStock.objects.filter(product_id=data.get("product")).first()
+#			if obj is None:
+#				stock_update = form.save()
+#				return render(request, 'stock.html', {'form': form, 'added': True})
+#			else:
+#				obj.stock = obj.stock + form.data['stock']
+#				obj.save()
+#				return render(request, 'stock.html', {'form': form, 'added': True})
+#
+#	else:
+#		form = ProductStockForm()
+#		return render(request, 'stock.html', {'form': form})
+
+
 @login_required()
 def add_to_basket(request, productid):
 	user = request.user
+	product = Product.objects.get(pk=productid)
 	shopping_basket = ShoppingBasket.objects.filter(user_id=user).first()
+
 	if not shopping_basket:
 		shopping_basket = ShoppingBasket(user_id=user).save()
 
-	product = Product.objects.get(pk=productid)
 	sbi = ShoppingBasketItems.objects.filter(basket_id=shopping_basket.id, product_id=product.id).first()
 	if sbi is None:
 		sbi = ShoppingBasketItems(basket_id=shopping_basket, product_id=product.id).save()
@@ -135,6 +155,7 @@ def checkout(request):
 				order_items.append(order_item)
 
 			shopping_basket.delete()
+			ShoppingBasket(user_id=user).save()
 			return render(request, 'order_complete.html', {'order': order, 'items': order_items})
 	else:
 		form = OrderForm()
