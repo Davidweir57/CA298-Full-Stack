@@ -5,11 +5,26 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <form class ="form-signin" action="." method="POST">
-        {% csrf_token %}
-        {{ form.as_table }}
-        <br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+
+<section id="cover" class="min-vh-100">
+    <div id="cover-caption">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                    <div class="px-2">
+                        <form action="." class="justify-content-center" method="POST">
+                            {% csrf_token %}
+                            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+                            <p><label for="id_username"></label>
+                                <input type="text" name="username" id="id_username" placeholder="Username" required></p>
+                            <p><label for="id_password"></label>
+                                <input type="password" name="password" id="id_password" placeholder="Password"></p>
+                            <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

@@ -7,6 +7,9 @@
 
 {% block content %}
     <br>
+    {% if empty %}
+        <h5>Your basket is empty :(</h5>
+    {% else  %}
     {% for p in products %}
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row no-gutters">
@@ -23,6 +26,8 @@
             </div>
           </div>
         </div>
-
     {% endfor %}
+        <h4>Total: {{ total }}</h4>
+        <a class="btn btn-primary" href="/checkout" role="button">Go to Checkout</a>
+    {% endif %}
 {% endblock %}

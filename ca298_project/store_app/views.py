@@ -71,7 +71,7 @@ def myform(request):
 		form = ProductForm(request.POST, request.FILES)
 		if form.is_valid():
 			new_product = form.save()
-			return render(request, 'single_product.html', {'product': new_product})
+			return render(request, 'form.html', {'form': form})
 	else:
 		form = ProductForm()
 		return render(request, 'form.html', {'form': form})
@@ -123,25 +123,35 @@ def shopping_basket(request, userid):
 	user = request.user
 	shopping_basket = ShoppingBasket.objects.filter(user_id=user).first()
 
+	if not shopping_basket:
+		shopping_basket = ShoppingBasket(user_id=user).save()
+		return render(request, "shopping_basket.html", {'empty': True})
+
 	sbi = ShoppingBasketItems.objects.filter(basket_id=shopping_basket.id)
 
 	if len(sbi) > 0:
 		products = []
+		total = 0
 		for i in sbi:
 			products.append((Product.objects.get(pk=i.product_id), i.quantity))
-		return render(request, "shopping_basket.html", {'products': products})
+			total += i.price()
+		return render(request, "shopping_basket.html", {'products': products, 'total': total})
 	else:
-		return render(request, "/")
+		return render(request, "shopping_basket.html", {'empty': True})
 
 
 @login_required
 def checkout(request):
 	user = request.user
 	shopping_basket = ShoppingBasket.objects.filter(user_id=user).first()
+	total = 0
 
 	if not shopping_basket:
 		return redirect(request, "/")
+
 	sbi = ShoppingBasketItems.objects.filter(basket_id=shopping_basket.id)
+	for i in sbi:
+		total += i.price()
 
 	if request.method == 'POST':
 		form = OrderForm(request.POST)
@@ -150,26 +160,29 @@ def checkout(request):
 			order.user_id = request.user
 			order.save()
 			order_items = []
+			total = 0
 			for basketitem in sbi:
 				order_item = OrderItems(order_id=order, product_id=basketitem.product.id, quantity=basketitem.quantity)
 				order_items.append(order_item)
 
 			shopping_basket.delete()
 			ShoppingBasket(user_id=user).save()
-			return render(request, 'order_complete.html', {'order': order, 'items': order_items})
+			return render(request, 'order_complete.html', {'order': order, 'items': order_items, 'total': total})
 	else:
 		form = OrderForm()
-		return render(request, 'checkout.html', {'form': form, 'basket': shopping_basket, 'items': sbi})
+		return render(request, 'checkout.html', {'form': form, 'basket': shopping_basket, 'items': sbi, 'total': total})
 
 
-def european_sword(request):
-	products = Product.objects.filter(category_id=1)
-	return render(request, 'european_swords.html', {'products': products})
+def categories(request, cat_id):
+	products = Product.objects.filter(category_id=cat_id)
+	subcategory = ProductSubCategory.objects.filter(parent_id=cat_id)
+	return render(request, 'productcategory.html', {'products': products, 'subcategories': subcategory})
 
 
-def oriental_sword(request):
-	products = Product.objects.filter(category_id=2)
-	return render(request, 'oriental_swords.html', {'products': products})
+def subcategories(request, sub_id):
+	products = Product.objects.filter(subcategory_id=sub_id)
+	subcategory = ProductSubCategory.objects.filter(parent_id=products[0].category_id)
+	return render(request, 'productcategory.html', {'products': products, 'subcategories': subcategory})
 
 
 

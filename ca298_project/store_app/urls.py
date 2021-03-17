@@ -12,8 +12,8 @@ urlpatterns = [
 	path('logout/', views.logout_view, name="logout"),
 	path('addbasket/<int:productid>', views.add_to_basket, name='add-basket'),
 	path('basket/<int:userid>', views.shopping_basket, name='shopping_basket'),
-	path('european', views.european_sword, name="european swords"),
-	path('oriental', views.oriental_sword, name="oriental swords"),
+	path('category/<int:cat_id>/', views.categories, name='product category page'),
+	path('subcategory/<int:sub_id>/', views.subcategories, name='product subcategory page'),
 	path('checkout', views.checkout, name="checkout"),
 	#path('stock', views.Stockform)
 

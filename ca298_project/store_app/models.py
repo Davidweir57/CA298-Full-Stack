@@ -9,6 +9,12 @@ class ProductCategory(models.Model):
     name = models.CharField(max_length=200)
 
 
+class ProductSubCategory(models.Model):
+    id = models.AutoField(primary_key=True)
+    parent = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -16,6 +22,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     picture = models.FileField(upload_to='product_img/', blank=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE)
 
 
 class ProductStock(models.Model):
@@ -38,6 +45,9 @@ class ShoppingBasketItems(models.Model):
     basket_id = models.ForeignKey(ShoppingBasket, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+
+    def price(self):
+        return self.product.price * self.quantity
 
 
 class Order(models.Model):

@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
 {% block title %}
-    European Swords
 {% endblock %}
-
 
 {% block content %}
     <br>
+
+<div class="container-fluid">
+    <div class="text-center" role="group">
+    {% for subcategory in subcategories %}
+        <a class="btn btn-primary" href="/subcategory/{{ subcategory.id }}/" role="button">{{ subcategory.name }}</a>
+    {% endfor %}
+    </div>
+</div>
 
 <div class="container-fluid">
   <div class="row">
@@ -17,12 +23,12 @@
         <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">{{ product.description }}</p>
-            <a href="product/{{ product.id }}" class="btn btn-primary">More info</a>
+            <p class="card-text">Price:{{ product.price }}</p>
+            <a href="/product/{{ product.id }}" class="btn btn-primary">More info</a>
         </div>
       </div>
     </div>
       {% endfor %}
   </div>
 </div>
-
 {% endblock %}

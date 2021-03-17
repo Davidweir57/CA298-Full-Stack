@@ -10,6 +10,11 @@ class CategoryChoiceField(ModelChoiceField):
         return obj.name
 
 
+class SubCategoryChoiceField(ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.name
+
+
 class ProductChoiceField(ModelChoiceField):
     def label_from_instance(self, obj):
         return obj.name
@@ -17,10 +22,11 @@ class ProductChoiceField(ModelChoiceField):
 
 class ProductForm(ModelForm):
     category = CategoryChoiceField(queryset=ProductCategory.objects.all())
+    subcategory = SubCategoryChoiceField(queryset=ProductSubCategory.objects.all())
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'price', 'picture', 'category']
+        fields = ['name', 'description', 'price', 'picture', 'category', 'subcategory']
 
 
 class ProductStockForm(ModelForm):

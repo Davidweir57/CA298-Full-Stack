@@ -24,7 +24,9 @@
         </div>
 
     {% endfor %}
-
+    <br>
+    <br>
+    <h4> Total: {{ total }}</h4>
     <form action="/checkout" method="post" enctype="multipart/form-data" >
     {% csrf_token %}
     {{ form.as_table }}
