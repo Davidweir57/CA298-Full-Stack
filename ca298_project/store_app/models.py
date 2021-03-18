@@ -52,7 +52,7 @@ class ShoppingBasketItems(models.Model):
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(CaUser, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(CaUser, on_delete=models.CASCADE)
     date_created = models.DateField(auto_now_add=True)
     shipping_addr = models.CharField(max_length=500)
     card_num = models.CharField(max_length=16)

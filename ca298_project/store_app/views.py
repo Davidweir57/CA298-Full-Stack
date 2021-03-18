@@ -183,6 +183,3 @@ def subcategories(request, sub_id):
 	products = Product.objects.filter(subcategory_id=sub_id)
 	subcategory = ProductSubCategory.objects.filter(parent_id=products[0].category_id)
 	return render(request, 'productcategory.html', {'products': products, 'subcategories': subcategory})
-
-
-
