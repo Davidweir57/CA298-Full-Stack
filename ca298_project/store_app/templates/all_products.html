@@ -6,12 +6,21 @@
 
 
 {% block content %}
-    {% for p in products %}
-        <div>
-            Name {{ p.name }}<br/>
-            Description {{ p.description }}<br/>
-            Price {{ p.price }}
+<div class="container-fluid">
+  <div class="row">
+      {% for product in products %}
+    <div class="col-sm-4">
+      <div class="card border-dark mb-3" style="width: 18rem;">
+        <img class="card-img-top" src="{{ product.picture.url }}" alt="{{ product.name }}" height="250">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text">Price:{{ product.price }}</p>
+            <a href="/product/{{ product.id }}" class="btn btn-primary">More info</a>
         </div>
-    {%  endfor %}
-
+      </div>
+    </div>
+      {% endfor %}
+  </div>
+</div>
 {% endblock %}
