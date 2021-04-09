@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core import serializers
 from .models import *
 from django.shortcuts import get_object_or_404, redirect
 from .forms import *
@@ -8,6 +9,9 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from .permissions import admin_required
+from rest_framework import viewsets
+from .serializers import *
+
 
 # Create your views here.
 
@@ -52,11 +56,6 @@ class CaAdminSignupView(CreateView):
 
 def index(request):
 	return render(request, 'index.html')
-
-
-def all_products(request):
-	all_p = Product.objects.all()
-	return render(request, 'all_products.html', {'products' : all_p})
 
 
 def singleproduct(request, prodid):
@@ -183,3 +182,14 @@ def subcategories(request, sub_id):
 	products = Product.objects.filter(subcategory_id=sub_id)
 	subcategory = ProductSubCategory.objects.filter(parent_id=products[0].category_id)
 	return render(request, 'productcategory.html', {'products': products, 'subcategories': subcategory})
+
+
+class UserViewSet(viewsets.ModelViewSet):
+	queryset = CaUser.objects.all()
+	serializer_class = UserSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+	queryset = Product.objects.all()
+	serializer_class = ProductSerializer
+
