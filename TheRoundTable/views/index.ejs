@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <table id="product-table">
+      <tr>
+          <td>Name</td>
+          <td>Description</td>
+          <td>Price</td>
+      </tr>
+    </table>
+    <script>
+      fetch("http://127.0.0.1:8000/api/products/?format=json")
+              .then(response => response.json())
+              .then(data =>{
+                console.log(data)
+                data.forEach(element =>{
+                  //for each row in data
+                  //create a new <tr> element
+                  //create td elements for name, description, price
+                  // add each td to tr
+                  // add tr to table
+                  let table = document.getElementById("product-table")
+                  let newRow = document.createElement("tr")
+                  table.appendChild(newRow)
+
+
+                  let name = document.createElement("td") // <td></td>
+                  name.innerHTML= element['name']
+                  newRow.appendChild(name)
+
+                  let description = document.createElement("td") // <td></td>
+                  description.innerHTML = element['description']
+                  newRow.appendChild(description)
+
+                  let price = document.createElement("td") // <td></td>
+                  price.innerHTML = element['price']
+                  newRow.appendChild(price)
+
+
+
+                })
+
+              });
+    </script>
+  </body>
+</html>
