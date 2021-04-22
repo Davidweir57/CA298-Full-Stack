@@ -1,9 +1,16 @@
-from django.urls import path
+from django.urls import path, include
 from . import views, forms
+from rest_framework import routers
+from .models import CaUser
+from .views import *
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'products', ProductViewSet)
+
 
 urlpatterns = [
 	path('', views.index, name="index"),
-	path('allproducts/', views.all_products, name='all_products'),
 	path('product/<int:prodid>', views.singleproduct, name='single_product'),
 	path('myform', views.myform),
 	path('usersignup/', views.CaUserSignupView.as_view(), name='register'),
@@ -15,6 +22,7 @@ urlpatterns = [
 	path('category/<int:cat_id>/', views.categories, name='product category page'),
 	path('subcategory/<int:sub_id>/', views.subcategories, name='product subcategory page'),
 	path('checkout', views.checkout, name="checkout"),
+	path('api/', include(router.urls))
 	#path('stock', views.Stockform)
 
 ]
