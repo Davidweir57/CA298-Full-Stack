@@ -1,78 +1,196 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
 
-    <table id="product-table">
-      <tr>
-      <td>Name</td>
-      <td>Desccription</td>
-      <td>Price</td>
-      </tr>
-     </table>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+<table id="product-table">
+    <tr>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Price</td>
+        <td>Image</td>
+        <td></td>
+    </tr>
+    <!-- <tr></tr> -->
+</table>
 
-     <form id="login-form", action="." method="POST">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Your username"
-     />
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Your
-     password" />
-      <input type="submit" value="Submit" />
-     </form>
+<form id="login-form" method="POST", action=".">
+    <label for="username">Username</label>
+    <input id="form-username" name="username" type="text" placeholder="Your Username">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="form-password" placeholder="Your Password">
+    <input type="submit" value="Login">
+</form>
 
-    <script>
-      fetch("http://127.0.0.1:8000/api/products/?format=json")
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        data.forEach(element => {
-          // for each row in the data
-          // create a new <tr> elemenet
-          let table = document.getElementById("product-table")
-          let newRow = document.createElement("tr") // <tr> innerhtml </tr>
-          table.appendChild(newRow)
+<button>Click me</button> <!-- button.innerHTML = -->
+<input type="button" value="Click Me"> <!-- button.value = -->
 
-          // create td elements for Name description and price
-          let name = document.createElement("td") // <td> innerhtml </td>
-          name.innerHTML = element['name']
-          newRow.appendChild(name)
+<div id="shopping-basket-cont">
+    <button id="show-basket">Show basket</button>
+    <table id="shopping-basket">
+        <tr>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Total</td>
+        </tr>
+    </table>
+    <form id="checkout-form" method="POST", action=".">
+        <label for="shipping_addr">Shipping Address</label>
+        <input type="text" name="shippping_addr" placeholder="Shipping address" id="shippping_addr"> <!--  {'shipping_addr': <>} -->
+        <button id="checkout-button" type="submit">Checkout</button>
+    </form>
+</div>
 
-          let descr = document.createElement("td") // <td> innerhtml </td>
-          descr.innerHTML = element['description']
-          newRow.appendChild(descr)
-
-          let price = document.createElement("td") // <td> innerhtml </td>
-          price.innerHTML = element['price']
-          newRow.appendChild(price)
+<script>
+    fetch("http://localhost:8000/api/products/?format=json")
+        .then(response => response.json())
+        .then(data =>{
+            console.log(data);
+            data.forEach(element =>{  // for i in array:
+                // for each row in the data
+                // create a new <tr> element
+                let table = document.getElementById("product-table")
+                let newRow = document.createElement("tr") // <tr> innerhtml </tr>
+                table.appendChild(newRow)
+                // create td elements for Name, descirption and price
+                let name = document.createElement("td") // <td> innerhtml  </td>
+                name.innerHTML  = element['name']
+                newRow.appendChild(name)
+                let desc = document.createElement("td") // <td> innerhtml  </td>   // var x = 5 ,
+                desc.innerHTML= element['description']
+                newRow.appendChild(desc)
+                let price = document.createElement("td") // <td> innerhtml  </td>   // var x = 5 ,
+                price.innerHTML= element['price']
+                newRow.appendChild(price)
+                // add each td to my tr element
+                // <td> <img src=""> </td>
+                let picturetd = document.createElement("td")
+                let picture = document.createElement("img")
+                picture.src = element['picture']
+                newRow.appendChild(picturetd);
+                picturetd.appendChild(picture)
+                let buttoncontainer = document.createElement("td")
+                let button = document.createElement("button")
+                button.innerHTML = "Add to basket"
+                button.addEventListener('click', function(){
+                    addToBasket(element['id']);
+                });
+                buttoncontainer.appendChild(button)
+                newRow.appendChild(buttoncontainer);
+                // event listener for login form
+            })
         });
-      });
 
-      let loginform = document.getElementById("login-form")
-      loginform.addEventListener("submit", (event) => {
+    let loginform = document.getElementById("login-form")
+    loginform.addEventListener("submit", (event)=>{
         event.preventDefault();
+        // get the data out of the form
+        let user = document.getElementById("form-username").value
+        let pass = document.getElementById("form-password").value
+        // build a POST request to /token/
+        fetch("http://localhost:8000/token/", {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify( {username:user, password:pass})  //{username: test, password:Testing123456}
+        }).then(response => response.json()).then(function(data){
+            console.log(data)
+            window.token = data['token']
+        })
+        // extract token from the response
+    } , true)
 
-        let user = document.getElementById("username").value
-        let pw = document.getElementById("password").value
 
-        fetch("http://127.0.0.1:8000/token/", {
-          method:'POST',  // we're sending a post request
-          headers:{
-            'Accept': 'application/json', // We accept Json data as a response from the server
-            'Content-Type': 'application/json' // We're sending Json data
-          },
-          body:JSON.stringify({username:user, password:pw}) 
-        }).then(response => response.json()).then(data => console.log(data))
-          // get the data returned from the server
-          console.log(data) // log the data in the console (so we can look at it)
-          window.token = data['token'] // save it to a global variable called window.token
 
-      }, true)
-    </script>
-  </body>
+    function addToBasket(productId){
+        if(window.token){
+            fetch("http://localhost:8000/addbasket/"+productId+"?format=json",{
+                method:'GET',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token '+window.token
+                }
+            }).then(function(response){
+                console.log(response)
+                return  response.json()
+            }).then(data=>console.log(data));
+        }
+        else{
+            alert("Please log in to continue");
+        }
+    }
+
+    function showBasket(){
+        if(window.token){
+            fetch("http://localhost:8000/basket/?format=json",{
+                method:'GET',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Token '+window.token
+                }
+            }).then(response => response.json()).then(data=>{
+                data['items'].forEach(element =>{
+                    let table = document.getElementById("shopping-basket")
+                    let newRow = document.createElement("tr") // <tr> innerhtml </tr>
+                    table.appendChild(newRow)
+                    let name = document.createElement("td")
+                    name.innerHTML = element['product']
+                    newRow.appendChild(name)
+                    let price = document.createElement("td")
+                    price.innerHTML = element['price']
+                    newRow.appendChild(price)
+                    let quantity = document.createElement("td")
+                    quantity.innerHTML = element['quantity']
+                    newRow.appendChild(quantity)
+                    let total = document.createElement("td")
+                    total.innerHTML = element['quantity']*element['price']
+                    newRow.appendChild(total)
+
+                })
+            });
+        }
+        else{
+            alert("Please log in to continue");
+        }
+    }
+
+    let showbb = document.getElementById("show-basket")
+    showbb.addEventListener("click", (event)=>{
+        event.preventDefault();
+        showBasket();
+    })
+
+
+    let checkoutbutton = document.getElementById("checkout-button");
+    checkoutbutton.addEventListener("click", (event)=>{
+        event.preventDefault();
+        // get the value for the shipping addr
+        let sp_addr = document.getElementById("shippping_addr").value;
+        fetch("http://localhost:8000/checkout/?format=json", {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Token '+window.token
+            },
+            body:JSON.stringify( {shipping_addr:sp_addr})
+        }).then(function(response){
+            console.log(response)
+            return response.json()
+        }).then(function(data){
+            console.log(data)
+        })
+    }, true);
+</script>
+</body>
 </html>

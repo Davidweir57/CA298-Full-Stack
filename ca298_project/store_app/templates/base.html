@@ -44,8 +44,8 @@
       <div class="btn-group">
           {% if  user.is_authenticated %}
             <a class="btn btn-primary" href="/logout" role="button">Logout</a>
-              <a href="/basket/{{ user.id }}" class="btn btn-primary">Basket</a>
-              <a href="/account/{{ user.id }}" class="btn btn-primary">Account</a>
+              <a href="/basket/" class="btn btn-primary">Basket</a>
+              <a href="/account/" class="btn btn-primary">Account</a>
               {% else %}
               <a class="btn btn-primary" href="/login" role="button">Login</a>
               <a class="btn btn-primary" href="/usersignup" role="button">Register</a>

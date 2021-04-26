@@ -73,4 +73,4 @@ class UserLoginForm(AuthenticationForm):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = ['shipping_addr', 'card_num']
+        fields = ['shipping_addr']
