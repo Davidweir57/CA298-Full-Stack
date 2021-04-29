@@ -12,36 +12,40 @@
 
 <button class="btn btn-secondary" onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">The Round Table</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About us</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Swords
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                    </ul>
-                </li>
-            </ul>
+<!-- Modal -->
+<div class="modal fade" id="basketModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Added to basket!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
         </div>
     </div>
-</nav>
+</div>
 
-<br>
-<br>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login successful!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order placed successfully!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <section class="py-5 text-center container">
@@ -52,7 +56,7 @@
             <p>
                 <button class="btn btn-sm btn-outline-secondary" id="show-basket">Basket</button>
                 <button class="btn btn-sm btn-outline-secondary" id="show-product">Product</button>
-                <button class="btn btn-sm btn-outline-secondary" onclick="hideLogin()" id="show-login">Sign in</button>
+                <button class="btn btn-sm btn-outline-secondary"  id="show-login">Sign in</button>
             </p>
         </div>
     </div>
@@ -71,7 +75,7 @@
             <input type="password" class="form-control" id="form-password" name="password" placeholder="Password">
             <label for="password">Password</label>
         </div>
-        <input class="w-100 btn btn-lg btn-sm btn-outline-secondary" type="submit" value="Sign in">
+        <input class="w-100 btn btn-lg btn-sm btn-outline-secondary" type="submit" value="Sign in" data-bs-toggle="modal" data-bs-target="#loginModal">
     </form>
 </div>
 
@@ -114,7 +118,7 @@
             <label class="form-label" for="card_num">Debit/Credit card number</label>
             <input class="form-control" type="text" name="car_num" id="card_num">
         </div>
-            <button class="btn btn-sm btn-outline-secondary" id="checkout-button" type="submit">Checkout</button>
+            <button class="btn btn-sm btn-outline-secondary" id="checkout-button" type="submit" data-bs-toggle="modal" data-bs-target="#orderModal">Checkout</button>
     </form>
 </div>
 
@@ -126,12 +130,7 @@
 <script>
     function getProduct() {
 
-        var x = document.getElementById("product-container");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
+        hideProduct();
 
         const div2 = document.getElementById('basket-cards');
         while(div2.firstChild){
@@ -190,9 +189,9 @@
                     card_body.appendChild(cont)
 
                     let button = document.createElement("button")
-                    button.classList.add("btn")
-                    button.classList.add("btn-sm")
-                    button.classList.add("btn-outline-secondary")
+                    button.classList.add("btn", "btn-sm", "btn-outline-secondary")
+                    button.setAttribute("data-bs-toggle", "modal")
+                    button.setAttribute("data-bs-target", "#basketModal")
                     button.innerHTML = "Add to basket"
                     button.addEventListener('click', function(){
                         addToBasket(element['id'])
@@ -205,6 +204,15 @@
                     cont.appendChild(prod_price)
             });
     })
+    }
+
+    function hideProduct() {
+        var x = document.getElementById("product-container");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
 
     let loginform = document.getElementById("login-form")
@@ -224,7 +232,6 @@
         }).then(response => response.json()).then(function(data){
             console.log(data)
             window.token = data['token']
-            alert("Login was successful")
             hideLogin();
 
         })
@@ -254,7 +261,6 @@
                 }
             }).then(function(response){
                 console.log(response)
-                alert("Successfully added to Basket")
                 return  response.json()
             }).then(data=>console.log(data));
         }
@@ -349,6 +355,16 @@
         getProduct();
     })
 
+    let showLogin= document.getElementById("show-login")
+    showLogin.addEventListener("click", (event)=>{
+        event.preventDefault();
+        var div = document.getElementById('product-cards');
+        while(div.firstChild){
+            div.removeChild(div.firstChild);
+        }
+        hideLogin();
+    })
+
 
     let showCheckout = document.getElementById("checkout-form-button")
     showCheckout.addEventListener("click", (event)=>{
@@ -383,7 +399,10 @@
             console.log(data)
             showBasket();
         })
-        alert("Order placed successfully!");
+        let x = document.getElementById("checkout-form")
+        let y = document.getElementById("shopping-basket")
+        x.style.display = "none"
+        x.style.display = "none"
     }, true);
 
 
