@@ -47,6 +47,17 @@
     </div>
 </div>
 
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Account created successfully!!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
@@ -65,7 +76,7 @@
 
 <div class="form-signin" id="login-cont" style="display: none">
     <form method="POST", action="." id="login-form">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 fw-normal">Sign in</h1>
 
         <div class="form-floating">
             <input type="text" name="username" class="form-control" id="form-username" placeholder="Username">
@@ -78,10 +89,6 @@
         <input class="w-100 btn btn-lg btn-sm btn-outline-secondary" type="submit" value="Sign in" data-bs-toggle="modal" data-bs-target="#loginModal">
     </form>
 </div>
-
-
-
-
 
 
 <div class="album py-5" id="product-container" style="display: none">
@@ -106,8 +113,6 @@
 </div>
 
 
-
-
 <div class="form-signin" id="checkout" style="display: none">
     <form id="checkout-form" method="POST", action=".">
         <div class="mb-3">
@@ -124,18 +129,17 @@
 
 
 
-
-
-
 <script>
     function getProduct() {
 
         hideProduct();
 
+
         const div2 = document.getElementById('basket-cards');
         while(div2.firstChild){
             div2.removeChild(div2.firstChild);
         }
+
 
         fetch("http://localhost:8000/api/products/?format=json")
             .then(response => response.json())
@@ -249,7 +253,6 @@
     }
 
 
-
     function addToBasket(productId){
         if(window.token){
             fetch("http://localhost:8000/addbasket/"+productId+"?format=json",{
@@ -340,8 +343,11 @@
         }
         else{
             alert("Please log in to continue");
+
         }
     }
+
+
 
     let showbb = document.getElementById("show-basket")
     showbb.addEventListener("click", (event)=>{
@@ -363,6 +369,13 @@
             div.removeChild(div.firstChild);
         }
         hideLogin();
+    })
+
+    let showsignup= document.getElementById("show-signup")
+    showsignup.addEventListener("click", (event)=>{
+        event.preventDefault();
+        hideSignup();
+
     })
 
 
