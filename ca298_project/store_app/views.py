@@ -165,7 +165,7 @@ def checkout(request):
             order.save()
             order_items = []
             for basketitem in sbi:
-                order_item = OrderItems(order_id=order, product_id=basketitem.product, quantity=basketitem.quantity)
+                order_item = OrderItems(order_id=order, product=basketitem.product, quantity=basketitem.quantity)
                 order_items.append(order_item)
             # delete the shopping basket
             shopping_basket.delete()
@@ -194,6 +194,8 @@ def subcategories(request, sub_id):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CaUser.objects.all()
     serializer_class = UserSerializer
+    authentication_classes = []
+    permission_classes = []
 
 
 class ProductViewSet(viewsets.ModelViewSet):

@@ -4,88 +4,208 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
 </head>
 <body>
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
-<table id="product-table">
-    <tr>
-        <td>Name</td>
-        <td>Description</td>
-        <td>Price</td>
-        <td>Image</td>
-        <td></td>
-    </tr>
-    <!-- <tr></tr> -->
-</table>
 
-<form id="login-form" method="POST", action=".">
-    <label for="username">Username</label>
-    <input id="form-username" name="username" type="text" placeholder="Your Username">
-    <label for="password">Password</label>
-    <input type="password" name="password" id="form-password" placeholder="Your Password">
-    <input type="submit" value="Login">
-</form>
+<button class="btn btn-secondary" onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
-<button>Click me</button> <!-- button.innerHTML = -->
-<input type="button" value="Click Me"> <!-- button.value = -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">The Round Table</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Swords
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-<div id="shopping-basket-cont">
-    <button id="show-basket">Show basket</button>
-    <table id="shopping-basket">
-        <tr>
-            <td>Name</td>
-            <td>Price</td>
-            <td>Quantity</td>
-            <td>Total</td>
-        </tr>
-    </table>
-    <form id="checkout-form" method="POST", action=".">
-        <label for="shipping_addr">Shipping Address</label>
-        <input type="text" name="shippping_addr" placeholder="Shipping address" id="shippping_addr"> <!--  {'shipping_addr': <>} -->
-        <button id="checkout-button" type="submit">Checkout</button>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+
+
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Welcome to The Round Table</h1>
+            <p class="lead text-muted">The Round Table is your one stop shop for all your weaponry needs. Our products range from authentic medieval swords to the most well known swords from fiction.</p>
+            <p>
+                <button class="btn btn-sm btn-outline-secondary" id="show-basket">Basket</button>
+                <button class="btn btn-sm btn-outline-secondary" id="show-product">Product</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="hideLogin()" id="show-login">Sign in</button>
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<div class="form-signin" id="login-cont" style="display: none">
+    <form method="POST", action="." id="login-form">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        <div class="form-floating">
+            <input type="text" name="username" class="form-control" id="form-username" placeholder="Username">
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="form-password" name="password" placeholder="Password">
+            <label for="password">Password</label>
+        </div>
+        <input class="w-100 btn btn-lg btn-sm btn-outline-secondary" type="submit" value="Sign in">
     </form>
 </div>
 
+
+
+
+
+
+<div class="album py-5" id="product-container" style="display: none">
+    <div class="container">
+        <div id="product-cards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!--- products go here --->
+        </div>
+
+    </div>
+
+</div>
+
+<div class="album py-5" id="shopping-basket" style="display: none">
+    <div class="container">
+        <div id="basket-cards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!--- products go here --->
+        </div>
+        <button class="btn btn-sm btn-outline-secondary" id="checkout-form-button" type="submit">Checkout</button>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="form-signin" id="checkout" style="display: none">
+    <form id="checkout-form" method="POST", action=".">
+        <div class="mb-3">
+            <label class="form-label" for="shipping_addr">Shipping Address</label>
+            <input class="form-control" type="text" name="shippping_addr" id="shippping_addr">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="card_num">Debit/Credit card number</label>
+            <input class="form-control" type="text" name="car_num" id="card_num">
+        </div>
+            <button class="btn btn-sm btn-outline-secondary" id="checkout-button" type="submit">Checkout</button>
+    </form>
+</div>
+
+
+
+
+
+
 <script>
-    fetch("http://localhost:8000/api/products/?format=json")
-        .then(response => response.json())
-        .then(data =>{
-            console.log(data);
-            data.forEach(element =>{  // for i in array:
-                // for each row in the data
-                // create a new <tr> element
-                let table = document.getElementById("product-table")
-                let newRow = document.createElement("tr") // <tr> innerhtml </tr>
-                table.appendChild(newRow)
-                // create td elements for Name, descirption and price
-                let name = document.createElement("td") // <td> innerhtml  </td>
-                name.innerHTML  = element['name']
-                newRow.appendChild(name)
-                let desc = document.createElement("td") // <td> innerhtml  </td>   // var x = 5 ,
-                desc.innerHTML= element['description']
-                newRow.appendChild(desc)
-                let price = document.createElement("td") // <td> innerhtml  </td>   // var x = 5 ,
-                price.innerHTML= element['price']
-                newRow.appendChild(price)
-                // add each td to my tr element
-                // <td> <img src=""> </td>
-                let picturetd = document.createElement("td")
-                let picture = document.createElement("img")
-                picture.src = element['picture']
-                newRow.appendChild(picturetd);
-                picturetd.appendChild(picture)
-                let buttoncontainer = document.createElement("td")
-                let button = document.createElement("button")
-                button.innerHTML = "Add to basket"
-                button.addEventListener('click', function(){
-                    addToBasket(element['id']);
-                });
-                buttoncontainer.appendChild(button)
-                newRow.appendChild(buttoncontainer);
-                // event listener for login form
-            })
-        });
+    function getProduct() {
+
+        var x = document.getElementById("product-container");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+
+        const div2 = document.getElementById('basket-cards');
+        while(div2.firstChild){
+            div2.removeChild(div2.firstChild);
+        }
+
+        fetch("http://localhost:8000/api/products/?format=json")
+            .then(response => response.json())
+            .then(data => {
+
+                var div = document.getElementById('product-cards');
+                while(div.firstChild){
+                    div.removeChild(div.firstChild);
+                }
+
+                console.log(data);
+                data.forEach(element => {  // for i in array:
+
+
+                    let container = document.getElementById("product-cards")
+
+                    let column = document.createElement("div")
+                    column.classList.add("col")
+                    container.appendChild(column)
+
+                    let card = document.createElement("div")
+                    card.classList.add("card")
+                    card.classList.add("shadow-sm")
+                    column.appendChild(card)
+
+                    let card_img = document.createElement("img")
+                    card_img.classList.add("card-img-top")
+                    card_img.src = element['picture']
+                    card_img.width = 100
+                    card_img.height = 225
+                    card.appendChild(card_img)
+
+                    let card_body = document.createElement("div")
+                    card_body.classList.add("card-body")
+                    card.appendChild(card_body)
+
+                    let prod_name = document.createElement("h5")
+                    prod_name.classList.add("card-title")
+                    prod_name.innerHTML = element['name']
+                    card_body.appendChild(prod_name)
+
+                    let prod_desc = document.createElement("p")
+                    prod_desc.classList.add("card-text")
+                    prod_desc.innerHTML = element['description']
+                    card_body.appendChild(prod_desc)
+
+                    let cont = document.createElement("div")
+                    cont.classList.add("d-flex")
+                    cont.classList.add("justify-content-between")
+                    cont.classList.add("align-items-center")
+                    card_body.appendChild(cont)
+
+                    let button = document.createElement("button")
+                    button.classList.add("btn")
+                    button.classList.add("btn-sm")
+                    button.classList.add("btn-outline-secondary")
+                    button.innerHTML = "Add to basket"
+                    button.addEventListener('click', function(){
+                        addToBasket(element['id'])
+                    })
+                    cont.appendChild(button)
+
+                    let prod_price = document.createElement("p")
+                    prod_price.classList.add("card-text")
+                    prod_price.innerHTML = "€" + element['price']
+                    cont.appendChild(prod_price)
+            });
+    })
+    }
 
     let loginform = document.getElementById("login-form")
     loginform.addEventListener("submit", (event)=>{
@@ -104,9 +224,22 @@
         }).then(response => response.json()).then(function(data){
             console.log(data)
             window.token = data['token']
+            alert("Login was successful")
+            hideLogin();
+
         })
         // extract token from the response
     } , true)
+
+
+    function hideLogin() {
+        var x = document.getElementById("login-cont");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
 
 
 
@@ -121,6 +254,7 @@
                 }
             }).then(function(response){
                 console.log(response)
+                alert("Successfully added to Basket")
                 return  response.json()
             }).then(data=>console.log(data));
         }
@@ -130,6 +264,17 @@
     }
 
     function showBasket(){
+
+        const div = document.getElementById('product-cards');
+        while(div.firstChild){
+            div.removeChild(div.firstChild);
+        }
+
+        const div2 = document.getElementById('basket-cards');
+        while(div2.firstChild){
+            div2.removeChild(div2.firstChild);
+        }
+
         if(window.token){
             fetch("http://localhost:8000/basket/?format=json",{
                 method:'GET',
@@ -140,23 +285,51 @@
                 }
             }).then(response => response.json()).then(data=>{
                 data['items'].forEach(element =>{
-                    let table = document.getElementById("shopping-basket")
-                    let newRow = document.createElement("tr") // <tr> innerhtml </tr>
-                    table.appendChild(newRow)
-                    let name = document.createElement("td")
-                    name.innerHTML = element['product']
-                    newRow.appendChild(name)
-                    let price = document.createElement("td")
-                    price.innerHTML = element['price']
-                    newRow.appendChild(price)
-                    let quantity = document.createElement("td")
-                    quantity.innerHTML = element['quantity']
-                    newRow.appendChild(quantity)
-                    let total = document.createElement("td")
-                    total.innerHTML = element['quantity']*element['price']
-                    newRow.appendChild(total)
+
+
+
+                    let container = document.getElementById("basket-cards")
+
+                    let column = document.createElement("div")
+                    column.classList.add("col")
+                    container.appendChild(column)
+
+                    let card = document.createElement("div")
+                    card.classList.add("card")
+                    card.classList.add("shadow-sm")
+                    column.appendChild(card)
+
+
+                    let card_body = document.createElement("div")
+                    card_body.classList.add("card-body")
+                    card.appendChild(card_body)
+
+                    let prod_name = document.createElement("h5")
+                    prod_name.classList.add("card-title")
+                    prod_name.innerHTML = element['product']
+                    card_body.appendChild(prod_name)
+
+                    let prod_quant = document.createElement("p")
+                    prod_quant.classList.add("card-text")
+                    prod_quant.innerHTML = "Quantity: " +element['quantity']
+                    card_body.appendChild(prod_quant)
+
+                    let prod_price = document.createElement("p")
+                    prod_price.classList.add("card-text")
+                    prod_price.innerHTML = "Price: " + "€" + element['price']
+                    card_body.appendChild(prod_price)
+
 
                 })
+
+
+                var x = document.getElementById("shopping-basket");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+
             });
         }
         else{
@@ -170,12 +343,31 @@
         showBasket();
     })
 
+    let showprod = document.getElementById("show-product")
+    showprod.addEventListener("click", (event)=>{
+        event.preventDefault();
+        getProduct();
+    })
+
+
+    let showCheckout = document.getElementById("checkout-form-button")
+    showCheckout.addEventListener("click", (event)=>{
+        event.preventDefault();
+        var x = document.getElementById("checkout");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    })
+
 
     let checkoutbutton = document.getElementById("checkout-button");
     checkoutbutton.addEventListener("click", (event)=>{
         event.preventDefault();
         // get the value for the shipping addr
         let sp_addr = document.getElementById("shippping_addr").value;
+        let num = document.getElementById("card_num").value;
         fetch("http://localhost:8000/checkout/?format=json", {
             method:'POST',
             headers:{
@@ -183,14 +375,41 @@
                 'Content-Type': 'application/json',
                 'Authorization': 'Token '+window.token
             },
-            body:JSON.stringify( {shipping_addr:sp_addr})
+            body:JSON.stringify( {shipping_addr:sp_addr, card_num:num})
         }).then(function(response){
             console.log(response)
             return response.json()
         }).then(function(data){
             console.log(data)
+            showBasket();
         })
+        alert("Order placed successfully!");
     }, true);
+
+
+    //Get the button
+    var mybutton = document.getElementById("myBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>
