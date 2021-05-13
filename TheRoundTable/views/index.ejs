@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= title %></title>
+    <title>The Round Table</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
 </head>
-<body>
+<body class="h-100 text-center bg-dark">
+
+
 
 <button class="btn btn-secondary" onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
@@ -59,40 +61,85 @@
 </div>
 
 
-<section class="py-5 text-center container">
+<section class="py-5 text-center container text-white">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">Welcome to The Round Table</h1>
             <p class="lead text-muted">The Round Table is your one stop shop for all your weaponry needs. Our products range from authentic medieval swords to the most well known swords from fiction.</p>
             <p>
-                <button class="btn btn-sm btn-outline-secondary" id="show-basket">Basket</button>
-                <button class="btn btn-sm btn-outline-secondary" id="show-product">Product</button>
-                <button class="btn btn-sm btn-outline-secondary"  id="show-login">Sign in</button>
+                <button class="btn btn-sm btn-outline-light" id="show-basket">Basket</button>
+                <button class="btn btn-sm btn-outline-light" id="show-product">Product</button>
+                <button class="btn btn-sm btn-outline-light"  id="show-login">Sign in</button>
             </p>
         </div>
     </div>
 </section>
 
 
-<div class="form-signin" id="login-cont" style="display: none">
+<div class="card shadow-sm bg-dark form-signin" id="login-cont" style="display: none">
     <form method="POST", action="." id="login-form">
-        <h1 class="h3 mb-3 fw-normal">Sign in</h1>
+        <h1 class="h3 mb-3 fw-normal text-white">Sign in</h1>
 
         <div class="form-floating">
             <input type="text" name="username" class="form-control" id="form-username" placeholder="Username">
             <label for="username">Username</label>
         </div>
+        <br>
         <div class="form-floating">
             <input type="password" class="form-control" id="form-password" name="password" placeholder="Password">
             <label for="password">Password</label>
         </div>
-        <input class="w-100 btn btn-lg btn-sm btn-outline-secondary" type="submit" value="Sign in" data-bs-toggle="modal" data-bs-target="#loginModal">
+        <br>
+        <input class="w-100 btn btn-lg btn-sm btn-outline-light" type="submit" value="Sign in" data-bs-toggle="modal" data-bs-target="#loginModal">
     </form>
+
+    <br>
+    <button class="w-100 btn btn-lg btn-sm btn-outline-light"  id="show-signup">Register</button>
 </div>
 
 
+
+<div class="card shadow-sm bg-dark form-signin" id="signup-cont" style="display: none">
+    <form method="POST", action="." id="signup-form">
+        <h1 class="h3 mb-3 fw-normal text-white">Sign up</h1>
+
+        <div class="form-floating">
+            <input type="text" name="username" class="form-control" id="signup-username" placeholder="Username">
+            <label for="username">Username</label>
+        </div>
+        <br>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="signup-password" name="password" placeholder="Password">
+            <label for="password">Password</label>
+        </div>
+        <span class="helptext text-white"><ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul></span>
+        <br>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="signup-password-repeat" name="password" placeholder="Password">
+            <label for="password">Confirm password</label>
+        </div>
+        <br>
+        <input class="w-100 btn btn-lg btn-sm btn-outline-light" type="submit" value="Sign up" data-bs-toggle="modal" data-bs-target="#signupModal">
+    </form>
+</div>
+
+<div class="btn-group" role="group" id="filter-buttons" style="display: none">
+    <a class="btn btn-outline-light" onclick="getProductCategory(1)">Japanese</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(2)">Chinese</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(3)">Medieval</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(4)">Viking</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(5)">Roman</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(6)">Game of thrones</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(7)">One Piece</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(8)">Lord of the rings</a>
+    <a class="btn btn-outline-light" onclick="getProductCategory(9)">The Witcher</a>
+
+</div>
+
 <div class="album py-5" id="product-container" style="display: none">
+
     <div class="container">
+
         <div id="product-cards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <!--- products go here --->
         </div>
@@ -106,39 +153,49 @@
         <div id="basket-cards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <!--- products go here --->
         </div>
-        <button class="btn btn-sm btn-outline-secondary" id="checkout-form-button" type="submit">Checkout</button>
+        <br>
+        <button class="btn btn-sm btn-outline-light" id="checkout-form-button" type="submit" style="display: block">Checkout</button>
 
     </div>
 
 </div>
 
 
-<div class="form-signin" id="checkout" style="display: none">
-    <form id="checkout-form" method="POST", action=".">
+<div class="card shadow-sm bg-dark form-signin" id="checkout" style="display: none">
+    <form id="checkout-form" method="POST" action=".">
         <div class="mb-3">
-            <label class="form-label" for="shipping_addr">Shipping Address</label>
-            <input class="form-control" type="text" name="shippping_addr" id="shippping_addr">
+            <label class="form-label text-white" for="shipping_addr">Shipping Address</label>
+            <input class="form-control" type="text" name="shippping_addr" id="shippping_addr" placeholder="Shipping address">
         </div>
         <div class="mb-3">
-            <label class="form-label" for="card_num">Debit/Credit card number</label>
-            <input class="form-control" type="text" name="car_num" id="card_num">
+            <label class="form-label text-white" for="card_num">Debit/Credit card number</label>
+            <input class="form-control" type="text" name="car_num" id="card_num" placeholder="Debit/Credit card number">
         </div>
-            <button class="btn btn-sm btn-outline-secondary" id="checkout-button" type="submit" data-bs-toggle="modal" data-bs-target="#orderModal">Checkout</button>
+            <button class="btn btn-sm btn-outline-light" id="checkout-button" type="submit" data-bs-toggle="modal" data-bs-target="#orderModal">Checkout</button>
     </form>
 </div>
 
 
 
 <script>
-    function getProduct() {
+    function getAllProduct() {
 
         hideProduct();
+
 
 
         const div2 = document.getElementById('basket-cards');
         while(div2.firstChild){
             div2.removeChild(div2.firstChild);
         }
+
+        let x = document.getElementById("signup-cont")
+        if (x.style.display === 'block')
+            x.style.display = 'none'
+
+        let y = document.getElementById("login-cont")
+        if (y.style.display === 'block')
+            y.style.display = 'none'
 
 
         fetch("http://localhost:8000/api/products/?format=json")
@@ -150,7 +207,6 @@
                     div.removeChild(div.firstChild);
                 }
 
-                console.log(data);
                 data.forEach(element => {  // for i in array:
 
 
@@ -161,8 +217,7 @@
                     container.appendChild(column)
 
                     let card = document.createElement("div")
-                    card.classList.add("card")
-                    card.classList.add("shadow-sm")
+                    card.classList.add("card", "shadow-sm")
                     column.appendChild(card)
 
                     let card_img = document.createElement("img")
@@ -173,7 +228,7 @@
                     card.appendChild(card_img)
 
                     let card_body = document.createElement("div")
-                    card_body.classList.add("card-body")
+                    card_body.classList.add("card-body", "bg-dark", "text-white", "shadow-sm")
                     card.appendChild(card_body)
 
                     let prod_name = document.createElement("h5")
@@ -193,7 +248,7 @@
                     card_body.appendChild(cont)
 
                     let button = document.createElement("button")
-                    button.classList.add("btn", "btn-sm", "btn-outline-secondary")
+                    button.classList.add("btn", "btn-sm", "btn-outline-light")
                     button.setAttribute("data-bs-toggle", "modal")
                     button.setAttribute("data-bs-target", "#basketModal")
                     button.innerHTML = "Add to basket"
@@ -210,6 +265,93 @@
     })
     }
 
+    function getProductCategory(catID) {
+
+
+        const div2 = document.getElementById('basket-cards');
+        while(div2.firstChild){
+            div2.removeChild(div2.firstChild);
+        }
+
+        let x = document.getElementById("signup-cont")
+        if (x.style.display === 'block')
+            x.style.display = 'none'
+
+
+        fetch("http://localhost:8000/api/products/?format=json")
+            .then(response => response.json())
+            .then(data => {
+
+                var div = document.getElementById('product-cards');
+                while(div.firstChild){
+                    div.removeChild(div.firstChild);
+                }
+
+                data.forEach(element => {  // for i in array:
+
+                    let container = document.getElementById("product-cards")
+
+                    if (element['subcategory_id'] === catID) {
+                        console.log(element)
+                        let column = document.createElement("div")
+                        column.classList.add("col")
+                        container.appendChild(column)
+
+                        let card = document.createElement("div")
+                        card.classList.add("card", "shadow-sm")
+                        column.appendChild(card)
+
+                        let card_img = document.createElement("img")
+                        card_img.classList.add("card-img-top")
+                        card_img.src = element['picture']
+                        card_img.width = 100
+                        card_img.height = 225
+                        card.appendChild(card_img)
+
+                        let card_body = document.createElement("div")
+                        card_body.classList.add("card-body", "bg-dark", "text-white", "shadow-sm")
+                        card.appendChild(card_body)
+
+                        let prod_name = document.createElement("h5")
+                        prod_name.classList.add("card-title")
+                        prod_name.innerHTML = element['name']
+                        card_body.appendChild(prod_name)
+
+                        let prod_desc = document.createElement("p")
+                        prod_desc.classList.add("card-text")
+                        prod_desc.innerHTML = element['description']
+                        card_body.appendChild(prod_desc)
+
+                        let cont = document.createElement("div")
+                        cont.classList.add("d-flex")
+                        cont.classList.add("justify-content-between")
+                        cont.classList.add("align-items-center")
+                        card_body.appendChild(cont)
+
+                        let button = document.createElement("button")
+                        button.classList.add("btn", "btn-sm", "btn-outline-light")
+                        button.setAttribute("data-bs-toggle", "modal")
+                        button.setAttribute("data-bs-target", "#basketModal")
+                        button.innerHTML = "Add to basket"
+                        button.addEventListener('click', function(){
+                            addToBasket(element['id'])
+                        })
+                        cont.appendChild(button)
+
+                        let prod_price = document.createElement("p")
+                        prod_price.classList.add("card-text")
+                        prod_price.innerHTML = "€" + element['price']
+                        cont.appendChild(prod_price)
+                    }
+
+                });
+            })
+    }
+
+
+
+
+
     function hideProduct() {
         var x = document.getElementById("product-container");
         if (x.style.display === "none") {
@@ -217,7 +359,15 @@
         } else {
             x.style.display = "none";
         }
+
+        var y = document.getElementById("filter-buttons");
+        if (y.style.display === "none") {
+            y.style.display = "block";
+        } else {
+            y.style.display = "none";
+        }
     }
+
 
     let loginform = document.getElementById("login-form")
     loginform.addEventListener("submit", (event)=>{
@@ -240,6 +390,28 @@
 
         })
         // extract token from the response
+    } , true)
+
+
+    let signupform = document.getElementById("signup-form")
+    signupform.addEventListener("submit", (event)=>{
+        event.preventDefault();
+        // get the data out of the form
+        let user = document.getElementById("signup-username").value
+        let pass = document.getElementById("signup-password").value
+        let pass2 = document.getElementById("signup-password-repeat").value
+        // build a POST request to /token/
+        fetch("http://localhost:8000/usersignup/?format=json", {
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify( {username:user, password:pass, password2:pass2})  //{username: test, password:Testing123456}
+        }).then(response => response.json()).then(function(data){
+            console.log(data)
+        })
+
     } , true)
 
 
@@ -274,6 +446,14 @@
 
     function showBasket(){
 
+        let x = document.getElementById("signup-cont")
+        if (x.style.display === 'block')
+            x.style.display = 'none'
+
+        let y = document.getElementById("filter-buttons")
+        if (y.style.display === 'block')
+            y.style.display = 'none'
+
         const div = document.getElementById('product-cards');
         while(div.firstChild){
             div.removeChild(div.firstChild);
@@ -304,8 +484,7 @@
                     container.appendChild(column)
 
                     let card = document.createElement("div")
-                    card.classList.add("card")
-                    card.classList.add("shadow-sm")
+                    card.classList.add("card", "shadow-sm")
                     column.appendChild(card)
 
 
@@ -358,8 +537,9 @@
     let showprod = document.getElementById("show-product")
     showprod.addEventListener("click", (event)=>{
         event.preventDefault();
-        getProduct();
+        getAllProduct();
     })
+
 
     let showLogin= document.getElementById("show-login")
     showLogin.addEventListener("click", (event)=>{
@@ -369,14 +549,50 @@
             div.removeChild(div.firstChild);
         }
         hideLogin();
+        let x = document.getElementById("signup-cont")
+        if (x.style.display === 'block')
+            x.style.display = 'none'
+
+        let y = document.getElementById("filter-buttons")
+        if (y.style.display === 'block')
+            y.style.display = 'none'
+
     })
 
-    let showsignup= document.getElementById("show-signup")
+
+    let showsignup = document.getElementById("show-signup")
     showsignup.addEventListener("click", (event)=>{
         event.preventDefault();
+        var div = document.getElementById('product-cards');
+        while(div.firstChild){
+            div.removeChild(div.firstChild);
+        }
+        hideLogin();
         hideSignup();
 
+        let y = document.getElementById("filter-buttons")
+        if (y.style.display === 'block')
+            y.style.display = 'none'
     })
+
+    function hideSignup() {
+        var x = document.getElementById("signup-cont");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+
+    function hideCheckout() {
+        var x = document.getElementById("checkout-form-button");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
 
 
     let showCheckout = document.getElementById("checkout-form-button")
@@ -411,11 +627,14 @@
         }).then(function(data){
             console.log(data)
             showBasket();
+            hideCheckout();
         })
         let x = document.getElementById("checkout-form")
         let y = document.getElementById("shopping-basket")
+        let z = document.getElementById("checkout")
         x.style.display = "none"
-        x.style.display = "none"
+        y.style.display = "none"
+        z.style.display = "none"
     }, true);
 
 

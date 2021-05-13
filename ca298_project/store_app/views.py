@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
+from django.utils.decorators import method_decorator
+
 from .models import *
 from django.shortcuts import get_object_or_404, redirect
 from .forms import *
@@ -35,13 +37,16 @@ def logout_view(request):
     return redirect('/')
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CaUserSignupView(CreateView):
     model = CaUser
     form_class = CaSignupForm
     template_name = 'causer_signup.html'
 
+
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)
+
 
     def form_valid(self, form):
         user = form.save()
